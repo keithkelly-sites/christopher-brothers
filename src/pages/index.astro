@@ -1,0 +1,146 @@
+---
+/*
+  Design Concept: "Built to Last"
+  Warm stone/concrete neutrals with maroon/burgundy accent. Family-owned since 1955.
+  The texture and weight of concrete = visual language. Sturdy, confident, grounded.
+  Reference: Industrial construction sites with editorial treatment.
+*/
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import concreteWork from '../assets/images/gettyimages-157770152-1920w.jpg';
+import retainingWall from '../assets/images/gettyimages-1336595615-1920w.jpg';
+import paverPatio from '../assets/images/gettyimages-1330760999-1920w.jpg';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Christopher Brothers LLC",
+  "url": "https://christopher-brothers.keithkelly.dev",
+  "telephone": "412-884-2933",
+  "email": "ed@christopherbros.com",
+  "description": "Concrete installation, pavers, and retaining walls in the South Hills of Pittsburgh. Family-owned since 1955.",
+  "foundingDate": "1955",
+  "address": { "@type": "PostalAddress", "addressLocality": "South Park", "addressRegion": "PA", "postalCode": "15129", "addressCountry": "US" },
+  "sameAs": ["https://www.facebook.com/christopherbrosconcrete"]
+};
+
+const services = [
+  { title: 'Concrete', desc: 'Driveways, walks, steps, patios, porches, garage floors, basement floors, footers, handicap ramps. Commercial: loading docks, floors, parking pads, dumpster pads.', img: concreteWork, alt: 'Crew smoothing wet cement for a new concrete surface' },
+  { title: 'Pavers', desc: 'Custom paver installation with materials of your choice. Patios, walkways, and outdoor living areas that add character to your property.', img: paverPatio, alt: 'Beautiful paver patio with outdoor furniture and raised garden beds' },
+  { title: 'Retaining Walls', desc: 'Versa-Lok, Unilock, Baur, stone veneers, mortar-laid stone, drystack stone, and cultured stone veneers. Built to hold.', img: retainingWall, alt: 'Professional retaining wall installation by Christopher Brothers' },
+];
+---
+
+<Layout title="Christopher Brothers LLC — Concrete Specialists | South Hills Pittsburgh">
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <section class="hero">
+    <div class="hero-image-wrap">
+      <Image src={concreteWork} alt="Christopher Brothers crew pouring and smoothing concrete" class="hero-img" width={1200} height={800} layout="constrained" loading="eager" fetchpriority="high" />
+    </div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content container">
+      <p class="hero-est" aria-hidden="true">Since 1955</p>
+      <h1>Concrete &amp; Retaining Wall Experts</h1>
+      <p class="hero-sub">Family-owned. 68+ years of experience. Serving the South Hills of Pittsburgh.</p>
+      <div class="hero-actions">
+        <a href="tel:412-884-2933" class="btn btn--maroon">Free Estimate: 412-884-2933</a>
+        <a href="/services" class="btn btn--outline hero-outline">Our Services</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-section">
+    <div class="container--wide">
+      <div class="services-header reveal">
+        <p class="section-label">What We Do</p>
+        <h2>Surfaces that last for generations.</h2>
+      </div>
+      <div class="services-grid reveal">
+        {services.map(s => (
+          <div class="service-card">
+            <Image src={s.img} alt={s.alt} width={500} height={350} layout="constrained" loading="lazy" class="service-img" />
+            <div class="service-body">
+              <h2 class="service-title">{s.title}</h2>
+              <p>{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <div class="container">
+      <div class="about-inner reveal">
+        <p class="section-label">About Us</p>
+        <h2>68+ years. One family. One standard.</h2>
+        <p>Christopher Brothers LLC has served the community since 1955. Residential and commercial clients alike count on our family-owned company to provide the very best in concrete and retaining wall solutions. We know what it takes to complete the job and give you a surface that will last for generations.</p>
+        <p>Companies and families choose us for exterior renovation projects: driveways, patios, retaining walls, porches, pavers, and other living areas. Our team delivers the very best in customer service and craftsmanship.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="areas-section">
+    <div class="container">
+      <div class="areas-inner reveal">
+        <p class="section-label">Service Area</p>
+        <h2>Across the South Hills.</h2>
+        <p class="areas-list">Baldwin, Bethel Park, Brentwood, Bridgeville, Canonsburg, Carnegie, Carrick, Castle Shannon, Clairton, Dormont, Elizabeth, Finleyville, Greentree, Jefferson Hills, Monongahela, Mt. Lebanon, Mt. Oliver, Peters Township, Pleasant Hills, South Park, Southside, Upper St. Clair, Venetia, West Mifflin, Whitehall</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <h2>Ready to start your project?</h2>
+        <p>Free estimates on all concrete, paver, and retaining wall work.</p>
+        <div class="cta-actions">
+          <a href="tel:412-884-2933" class="btn btn--maroon">Call 412-884-2933</a>
+          <a href="mailto:ed@christopherbros.com" class="btn btn--outline">Email Ed</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero { position: relative; min-height: 75vh; display: flex; align-items: flex-end; overflow: hidden; }
+  .hero-image-wrap { position: absolute; inset: 0; }
+  .hero-image-wrap :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, oklch(.15 .01 40 / .9) 0%, oklch(.15 .01 40 / .4) 60%, oklch(.15 .01 40 / .15) 100%); }
+  .hero-content { position: relative; z-index: 1; padding: var(--space-3xl) 0; color: var(--white); }
+  .hero-est { font-family: var(--font-display); font-size: .75rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--maroon-light); margin-bottom: var(--space-md); background: oklch(1 0 0 / .1); display: inline-block; padding: .3em .8em; }
+  .hero h1 { color: var(--white); max-width: 600px; }
+  .hero-sub { color: oklch(.9 .005 70 / .75); max-width: 450px; margin: var(--space-md) 0 var(--space-lg); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .hero-outline { color: var(--white); border-color: oklch(1 0 0 / .3); }
+  .hero-outline:hover { background: var(--white); color: var(--slate); border-color: var(--white); }
+
+  .services-section { padding: var(--space-3xl) 0; background: var(--stone); }
+  .services-header { margin-bottom: var(--space-xl); }
+  .services-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+  @media (min-width: 700px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+  .service-card { background: var(--white); border: 1px solid oklch(0 0 0 / .06); overflow: hidden; }
+  .service-card :global(.service-img img) { width: 100%; height: 240px; object-fit: cover; }
+  .service-body { padding: var(--space-md); }
+  .service-title { font-size: 1.25rem; margin-bottom: var(--space-xs); color: var(--maroon); }
+  .service-body p { font-size: .9375rem; color: var(--text-light); }
+
+  .about-section { padding: var(--space-3xl) 0; background: var(--white); }
+  .about-inner { max-width: 700px; }
+  .about-inner h2 { margin-bottom: var(--space-md); }
+  .about-inner p { color: var(--text-light); }
+
+  .areas-section { padding: var(--space-2xl) 0; background: var(--stone-dark); }
+  .areas-inner h2 { margin-bottom: var(--space-md); }
+  .areas-list { color: var(--text-light); font-size: .9375rem; line-height: 1.8; }
+
+  .cta-section { padding: var(--space-3xl) 0; background: var(--slate); text-align: center; color: var(--white); }
+  .cta-inner h2 { color: var(--white); margin-bottom: var(--space-sm); }
+  .cta-inner > p { color: oklch(.85 .005 70 / .7); margin-bottom: var(--space-lg); }
+  .cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm); }
+  .cta-actions .btn--outline { color: var(--white); border-color: oklch(1 0 0 / .3); }
+  .cta-actions .btn--outline:hover { background: var(--white); color: var(--slate); }
+</style>

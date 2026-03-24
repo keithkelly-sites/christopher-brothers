@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import concreteImg from '../assets/images/gettyimages-157770152-1920w.jpg';
+import retainingImg from '../assets/images/gettyimages-1336595615-1920w.jpg';
+import paverImg from '../assets/images/gettyimages-1330760999-1920w.jpg';
+---
+
+<Layout title="Services — Christopher Brothers LLC" description="Concrete installation, pavers, and retaining walls. Residential and commercial. South Hills Pittsburgh.">
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section-label">Services</p>
+      <h1>What We Build</h1>
+      <p class="hero-sub">Residential and commercial concrete, pavers, and retaining walls across the South Hills.</p>
+    </div>
+  </section>
+
+  <section class="service-detail">
+    <div class="container--wide">
+      <div class="detail-grid reveal">
+        <div class="detail-image">
+          <Image src={concreteImg} alt="Christopher Brothers crew pouring concrete" width={600} height={450} layout="constrained" loading="lazy" />
+        </div>
+        <div class="detail-content">
+          <p class="section-label">Concrete</p>
+          <h2>Residential &amp; commercial concrete.</h2>
+          <div class="detail-cols">
+            <div>
+              <h3>Residential</h3>
+              <ul><li>Driveways</li><li>Walks</li><li>Steps</li><li>Patios</li><li>Porches</li><li>Garage floors</li><li>Basement floors</li><li>Footers</li><li>Handicap ramps</li></ul>
+            </div>
+            <div>
+              <h3>Commercial</h3>
+              <ul><li>Loading docks</li><li>Floors</li><li>Grade beams</li><li>Parking pads</li><li>Dumpster pads</li><li>Public walkways</li><li>Raised decks</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="service-detail alt-bg">
+    <div class="container--wide">
+      <div class="detail-grid detail-grid--reverse reveal">
+        <div class="detail-content">
+          <p class="section-label">Pavers</p>
+          <h2>Custom paver installation.</h2>
+          <p>We install pavers with materials of your choice. Patios, walkways, driveways, and outdoor living areas that add character and value to your property. Choose from a wide range of styles, colors, and patterns.</p>
+        </div>
+        <div class="detail-image">
+          <Image src={paverImg} alt="Beautiful paver patio with outdoor furniture" width={600} height={400} layout="constrained" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="service-detail">
+    <div class="container--wide">
+      <div class="detail-grid reveal">
+        <div class="detail-image">
+          <Image src={retainingImg} alt="Professional retaining wall installation" width={600} height={300} layout="constrained" loading="lazy" />
+        </div>
+        <div class="detail-content">
+          <p class="section-label">Retaining Walls</p>
+          <h2>Built to hold.</h2>
+          <ul class="wall-types"><li>Versa-Lok</li><li>Unilock</li><li>Baur</li><li>Stone veneers</li><li>Stone laid in mortar</li><li>Stone drystack</li><li>Cultured stone veneers</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <h2>Get a free estimate.</h2>
+        <p>Call us or email to discuss your project.</p>
+        <div class="cta-actions">
+          <a href="tel:412-884-2933" class="btn btn--maroon">Call 412-884-2933</a>
+          <a href="mailto:ed@christopherbros.com" class="btn btn--outline cta-outline">Email Ed</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero { padding: var(--space-3xl) 0 var(--space-xl); background: var(--slate); color: var(--white); }
+  .page-hero .section-label { color: var(--maroon-light); }
+  .page-hero h1 { color: var(--white); margin-bottom: var(--space-sm); }
+  .hero-sub { color: oklch(.85 .005 70 / .7); max-width: 500px; }
+
+  .service-detail { padding: var(--space-3xl) 0; background: var(--stone); }
+  .alt-bg { background: var(--white); }
+  .detail-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-xl); align-items: center; }
+  @media (min-width: 800px) { .detail-grid { grid-template-columns: 1fr 1fr; gap: var(--space-2xl); } }
+  @media (min-width: 800px) { .detail-grid--reverse .detail-content { order: -1; } }
+  .detail-image :global(img) { width: 100%; height: auto; border: 1px solid oklch(0 0 0 / .06); }
+  .detail-content h2 { margin-bottom: var(--space-md); }
+  .detail-content > p { color: var(--text-light); margin-bottom: var(--space-md); }
+  .detail-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+  .detail-cols h3 { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--maroon); margin-bottom: var(--space-sm); }
+  .detail-cols ul, .wall-types { display: flex; flex-direction: column; gap: .35em; }
+  .detail-cols li, .wall-types li { font-size: .9375rem; color: var(--text-light); padding-left: 1.25em; position: relative; }
+  .detail-cols li::before, .wall-types li::before { content: ''; position: absolute; left: 0; top: .55em; width: 6px; height: 2px; background: var(--maroon); }
+
+  .cta-section { padding: var(--space-3xl) 0; background: var(--slate); text-align: center; color: var(--white); }
+  .cta-inner h2 { color: var(--white); margin-bottom: var(--space-sm); }
+  .cta-inner > p { color: oklch(.85 .005 70 / .7); margin-bottom: var(--space-lg); }
+  .cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm); }
+  .cta-outline { color: var(--white); border-color: oklch(1 0 0 / .3); }
+  .cta-outline:hover { background: var(--white); color: var(--slate); }
+</style>

@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import mapImg from '../assets/images/map.png';
+---
+
+<Layout title="Contact — Christopher Brothers LLC" description="Contact Christopher Brothers for a free estimate. Call 412-884-2933 or email ed@christopherbros.com. South Park, PA.">
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section-label">Contact</p>
+      <h1>Get a Free Estimate</h1>
+      <p class="hero-sub">Call, email, or fill out the form below. We'll get back to you.</p>
+    </div>
+  </section>
+
+  <section class="contact-main">
+    <div class="container--wide">
+      <div class="contact-grid reveal">
+        <div class="contact-info">
+          <div class="contact-block">
+            <h2>Phone</h2>
+            <a href="tel:412-884-2933" class="contact-phone">412-884-2933</a>
+          </div>
+          <div class="contact-block">
+            <h2>Email</h2>
+            <a href="mailto:ed@christopherbros.com" class="contact-email">ed@christopherbros.com</a>
+          </div>
+          <div class="contact-block">
+            <h2>Location</h2>
+            <address>Christopher Brothers LLC<br />South Park, PA 15129</address>
+          </div>
+
+          <div class="form-wrap">
+            <h2>Send a Message</h2>
+            <form method="POST" action="#" class="contact-form">
+              <div class="form-row">
+                <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" required autocomplete="name" /></div>
+                <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" required autocomplete="email" /></div>
+              </div>
+              <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" autocomplete="tel" /></div>
+              <div class="form-group"><label for="message">Describe your project</label><textarea id="message" name="message" rows="4" required></textarea></div>
+              <button type="submit" class="btn btn--maroon">Send</button>
+            </form>
+          </div>
+        </div>
+        <div class="contact-sidebar">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=South+Park+Township+PA+15129" target="_blank" rel="noopener noreferrer" class="map-link">
+            <Image src={mapImg} alt="Map showing Christopher Brothers service area in South Park, PA" width={800} height={500} layout="constrained" loading="lazy" class="map-image" />
+            <div class="map-bar"><span>South Park, PA</span><span>Get directions &rarr;</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero { padding: var(--space-3xl) 0 var(--space-xl); background: var(--slate); color: var(--white); }
+  .page-hero .section-label { color: var(--maroon-light); }
+  .page-hero h1 { color: var(--white); margin-bottom: var(--space-sm); }
+  .hero-sub { color: oklch(.85 .005 70 / .7); }
+
+  .contact-main { padding: var(--space-3xl) 0; background: var(--stone); }
+  .contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); }
+  @media (min-width: 800px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+
+  .contact-info { display: flex; flex-direction: column; gap: var(--space-xl); }
+  .contact-block h2 { font-family: var(--font-display); font-size: .6875rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--maroon); margin-bottom: var(--space-sm); }
+  .contact-phone { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 900; color: var(--slate); display: block; }
+  .contact-phone:hover { color: var(--maroon); }
+  .contact-email { font-size: 1.0625rem; color: var(--slate); text-decoration: underline; text-underline-offset: 3px; }
+  .contact-email:hover { color: var(--maroon); }
+  .contact-block address { font-style: normal; font-size: 1rem; line-height: 1.6; color: var(--text); }
+
+  .form-wrap h2 { font-family: var(--font-display); font-size: .6875rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--maroon); margin-bottom: var(--space-md); }
+  .contact-form { display: flex; flex-direction: column; gap: var(--space-md); }
+  .form-row { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
+  @media (min-width: 500px) { .form-row { grid-template-columns: 1fr 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: .35em; }
+  .form-group label { font-size: .8125rem; font-weight: 500; color: var(--text-light); }
+  .form-group input, .form-group textarea { padding: .7em .9em; border: 1px solid oklch(0 0 0 / .12); background: var(--white); color: var(--text); font-size: 1rem; min-height: 44px; }
+  .form-group textarea { resize: vertical; }
+  .form-group input:focus, .form-group textarea:focus { outline: 2px solid var(--maroon); outline-offset: 1px; border-color: var(--maroon); }
+
+  .map-link { display: block; overflow: hidden; box-shadow: 0 4px 20px oklch(0 0 0 / .08); }
+  .map-image { width: 100%; height: auto; }
+  .map-bar { display: flex; justify-content: space-between; align-items: center; padding: var(--space-sm) var(--space-md); background: var(--maroon); color: var(--white); font-family: var(--font-display); font-size: .8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+</style>
