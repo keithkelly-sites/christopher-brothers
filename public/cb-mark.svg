@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Outer red ring -->
+  <circle cx="100" cy="100" r="97" fill="#c53030"/>
+  <!-- Dark gap -->
+  <circle cx="100" cy="100" r="83" fill="#222"/>
+  <!-- Inner red ring -->
+  <circle cx="100" cy="100" r="77" fill="#c53030"/>
+  <!-- Dark center -->
+  <circle cx="100" cy="100" r="71" fill="#222"/>
+
+  <!-- C — red bold arc, open on the right -->
+  <path d="
+    M 125 38
+    A 70 70 0 1 0 125 162
+    L 125 140
+    A 48 48 0 1 1 125 60
+    Z
+  " fill="#c53030"/>
+
+  <!-- B — red, classic B shape with two bowls -->
+  <path d="
+    M 90 58
+    L 90 142
+    L 118 142
+    C 140 142 140 112 120 108
+    C 138 104 138 78 118 58
+    Z
+    M 106 66
+    C 118 66 122 78 118 86
+    C 114 94 106 94 106 94
+    L 106 66
+    Z
+    M 106 100
+    C 106 100 116 100 122 108
+    C 128 116 124 134 112 134
+    L 106 134
+    Z
+  " fill="#c53030" fill-rule="evenodd"/>
+</svg>

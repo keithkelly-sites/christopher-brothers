@@ -1,132 +1,232 @@
 ---
-import { Font } from 'astro:assets';
+import { Font, Image } from 'astro:assets';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
-interface Props { title: string; description?: string; }
-const { title, description = 'Christopher Brothers LLC — concrete installation, pavers, and retaining walls in the South Hills of Pittsburgh. Family-owned since 1955. Call 412-884-2933.' } = Astro.props;
+import cbMark from '../assets/images/cb-mark-crop.png';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogImage?: string;
+}
+
+const { title, description, canonicalPath = '', ogImage = '' } = Astro.props;
+const canonicalURL = new URL(canonicalPath, Astro.site);
 const currentPath = Astro.url.pathname;
-const canonicalUrl = new URL(currentPath, Astro.site).href;
+const siteName = 'Christopher Brothers LLC';
+
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/services', label: 'Services' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/services/', label: 'Services' },
+  { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
 ];
 ---
+
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
     <title>{title}</title>
-    <link rel="canonical" href={canonicalUrl} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Christopher Brothers LLC" />
+    <meta property="og:site_name" content={siteName} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
     <Font cssVariable="--font-display" preload />
     <Font cssVariable="--font-body" preload />
+    <Font cssVariable="--font-mono" preload />
     <ClientRouter />
   </head>
   <body>
     <a href="#main-content" class="skip-to-content">Skip to content</a>
+    <!-- Header -->
     <header class="site-header" id="site-header">
       <div class="header-inner">
-        <a href="/" class="logo" aria-label="Christopher Brothers home">Christopher<span class="logo-accent"> Brothers</span></a>
-        <nav class="main-nav" aria-label="Main navigation">
-          {navLinks.map(link => (<a href={link.href} class:list={['nav-link', { active: currentPath === link.href }]} aria-current={currentPath === link.href ? 'page' : undefined}>{link.label}</a>))}
-          <a href="tel:412-884-2933" class="btn btn--maroon header-cta">412-884-2933</a>
+        <a href="/" class="header-logo" aria-label="Christopher Brothers LLC — Home">
+          <Image src={cbMark} alt="" width={36} height={36} class="header-logo-mark" loading="eager" />
+          <span class="header-logo-text">Christopher Brothers</span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Main navigation">
+          {navLinks.map(link => (
+            <a href={link.href} aria-current={currentPath === link.href ? 'page' : undefined}>
+              {link.label}
+            </a>
+          ))}
+          <a href="/contact/" class="nav-cta">Free Estimate</a>
         </nav>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-          <span class="menu-bar" aria-hidden="true"></span><span class="menu-bar" aria-hidden="true"></span><span class="menu-bar" aria-hidden="true"></span>
+
+        <button
+          class="mobile-toggle"
+          id="mobile-toggle"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
     </header>
-    <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
-      <nav aria-label="Mobile navigation">
-        {navLinks.map(link => (<a href={link.href} class:list={['mobile-link', { active: currentPath === link.href }]} aria-current={currentPath === link.href ? 'page' : undefined}>{link.label}</a>))}
-        <a href="tel:412-884-2933" class="btn btn--maroon mobile-cta">Call 412-884-2933</a>
-      </nav>
-    </div>
-    <main id="main-content"><slot /></main>
+
+    <!-- Mobile menu -->
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+      <button class="mobile-close" id="mobile-close" aria-label="Close menu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      {navLinks.map(link => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+      <a href="/contact/" class="mobile-cta">Free Estimate</a>
+      <a href="tel:+14128842933" class="mobile-phone">412-884-2933</a>
+    </nav>
+
+    <!-- Main content -->
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <!-- Footer -->
     <footer class="site-footer">
-      <div class="footer-inner container--wide">
-        <div class="footer-brand">
-          <span class="footer-name">Christopher Brothers LLC</span>
-          <p>Concrete specialists since 1955.</p>
-          <address>South Park, PA 15129</address>
+      <div class="footer-inner">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <h3><span>CB</span> Christopher Brothers</h3>
+            <p>
+              Concrete and retaining wall experts serving the South Hills
+              of Pittsburgh since 1955. Three generations of genuine craftsmanship.
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h4>Services</h4>
+            <a href="/services/">Concrete</a>
+            <a href="/services/#pavers">Pavers</a>
+            <a href="/services/#retaining-walls">Retaining Walls</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <address>
+              <a href="tel:+14128842933">412-884-2933</a>
+              <a href="mailto:ed@christopherbros.com">ed@christopherbros.com</a>
+              <a href="/contact/">Get a Free Estimate</a>
+            </address>
+          </div>
         </div>
-        <div class="footer-col">
-          <h3>Contact</h3>
-          <p><a href="tel:412-884-2933">412-884-2933</a></p>
-          <p><a href="mailto:ed@christopherbros.com">ed@christopherbros.com</a></p>
-        </div>
-        <div class="footer-col">
-          <h3>Services</h3>
-          <a href="/services">Concrete</a>
-          <a href="/services">Pavers</a>
-          <a href="/services">Retaining Walls</a>
-        </div>
-        <div class="footer-col">
-          <h3>Follow</h3>
-          <a href="https://www.facebook.com/christopherbrosconcrete" target="_blank" rel="noopener noreferrer">Facebook</a>
-          <a href="https://search.google.com/local/writereview?placeid=ChIJxdTElWv7NIgRQHM9VBXvuvs" target="_blank" rel="noopener noreferrer">Leave a Review</a>
+
+        <div class="footer-bottom">
+          <p>&copy; {new Date().getFullYear()} Christopher Brothers LLC. South Park, PA 15129.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/christopherbrosconcrete" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="https://search.google.com/local/writereview?placeid=ChIJxdTElWv7NIgRQHM9VBXvuvs" target="_blank" rel="noopener noreferrer" aria-label="Leave a Google review">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom"><div class="container--wide"><p>&copy; {new Date().getFullYear()} Christopher Brothers LLC</p></div></div>
     </footer>
+
+    <!-- Scripts -->
     <script>
-      function initNav() {
-        const toggle = document.getElementById('menu-toggle'); const nav = document.getElementById('mobile-nav'); const hdr = document.getElementById('site-header');
-        if (!toggle || !nav) return;
-        toggle.addEventListener('click', () => { const o = toggle.getAttribute('aria-expanded') === 'true'; toggle.setAttribute('aria-expanded', String(!o)); nav.setAttribute('aria-hidden', String(o)); toggle.classList.toggle('open'); nav.classList.toggle('open'); document.body.style.overflow = o ? '' : 'hidden'; });
-        nav.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { toggle.setAttribute('aria-expanded','false'); nav.setAttribute('aria-hidden','true'); toggle.classList.remove('open'); nav.classList.remove('open'); document.body.style.overflow=''; }));
-        window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 60), { passive: true });
+      // Mobile menu toggle
+      function initMobileMenu() {
+        const toggle = document.getElementById('mobile-toggle');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('mobile-close');
+        if (!toggle || !menu) return;
+
+        // Remove old listeners by cloning
+        const newToggle = toggle.cloneNode(true);
+        toggle.parentNode?.replaceChild(newToggle, toggle);
+
+        function openMenu() {
+          newToggle.setAttribute('aria-expanded', 'true');
+          menu.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+          newToggle.setAttribute('aria-expanded', 'false');
+          menu.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+
+        newToggle.addEventListener('click', () => {
+          const expanded = newToggle.getAttribute('aria-expanded') === 'true';
+          expanded ? closeMenu() : openMenu();
+        });
+
+        // Close button inside menu
+        if (closeBtn) {
+          closeBtn.addEventListener('click', closeMenu);
+        }
+
+        // Close on link click
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', closeMenu);
+        });
       }
+
+      // Header scroll effect
+      function initHeaderScroll() {
+        const header = document.getElementById('site-header');
+        if (!header) return;
+
+        const check = () => {
+          header.classList.toggle('scrolled', window.scrollY > 50);
+        };
+        window.addEventListener('scroll', check, { passive: true });
+        check();
+      }
+
+      // Reveal on scroll
       function initReveal() {
-        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-        document.querySelectorAll('.reveal').forEach(el => { el.style.opacity='0'; el.style.transform='translateY(24px)'; el.style.transition='opacity .7s ease, transform .7s ease'; obs.observe(el); });
+        const els = document.querySelectorAll('.reveal');
+        if (!els.length) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        );
+
+        els.forEach(el => observer.observe(el));
       }
-      document.addEventListener('astro:page-load', () => { initNav(); initReveal(); });
+
+      // Init on page load and view transitions
+      function init() {
+        initMobileMenu();
+        initHeaderScroll();
+        initReveal();
+      }
+
+      // astro:page-load fires on initial load AND after every view transition
+      document.addEventListener('astro:page-load', init);
     </script>
-    <style>
-      .skip-to-content { position: absolute; top: -100%; left: 50%; transform: translateX(-50%); background: var(--maroon); color: var(--white); padding: .75em 1.5em; z-index: 200; font-weight: 700; }
-      .skip-to-content:focus { top: .5rem; }
-      .site-header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--stone) 95%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid oklch(0 0 0 / .06); }
-      .site-header.scrolled { box-shadow: 0 1px 10px oklch(0 0 0 / .06); }
-      .header-inner { display: flex; align-items: center; justify-content: space-between; padding: var(--space-sm) var(--gutter); max-width: 1300px; margin: 0 auto; }
-      .logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; color: var(--slate); text-transform: uppercase; letter-spacing: .02em; }
-      .logo-accent { color: var(--maroon); }
-      .main-nav { display: none; align-items: center; gap: var(--space-md); }
-      .nav-link { font-family: var(--font-display); font-size: .8125rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-light); }
-      .nav-link:hover, .nav-link.active { color: var(--slate); }
-      .nav-link.active { border-bottom: 2px solid var(--maroon); padding-bottom: 2px; }
-      .header-cta { font-size: .75rem; padding: .6em 1.2em; }
-      @media (min-width: 800px) { .main-nav { display: flex; } .menu-toggle { display: none; } }
-      .menu-toggle { display: flex; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 10px; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
-      .menu-bar { display: block; width: 22px; height: 2px; background: var(--slate); transform-origin: center; }
-      .menu-toggle.open .menu-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-      .menu-toggle.open .menu-bar:nth-child(2) { visibility: hidden; }
-      .menu-toggle.open .menu-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-      .mobile-nav { position: fixed; inset: 0; z-index: 99; background: var(--stone); display: none; flex-direction: column; align-items: center; justify-content: center; }
-      .mobile-nav.open { display: flex; }
-      .mobile-nav nav { display: flex; flex-direction: column; align-items: center; gap: var(--space-lg); }
-      .mobile-link { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--slate); text-transform: uppercase; }
-      .mobile-link:hover, .mobile-link.active { color: var(--maroon); }
-      .mobile-cta { margin-top: var(--space-md); }
-      .site-footer { background: var(--slate); color: oklch(.85 .005 70); padding-top: var(--space-2xl); }
-      .footer-inner { display: grid; grid-template-columns: 1fr; gap: var(--space-xl); padding-bottom: var(--space-xl); }
-      @media (min-width: 700px) { .footer-inner { grid-template-columns: repeat(2, 1fr); } }
-      @media (min-width: 1000px) { .footer-inner { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
-      .footer-name { font-family: var(--font-display); font-weight: 900; font-size: 1.125rem; text-transform: uppercase; display: block; margin-bottom: .25em; }
-      .footer-inner address { font-style: normal; font-size: .9375rem; opacity: .7; }
-      .footer-inner p { font-size: .9375rem; opacity: .8; }
-      .footer-col h3 { font-family: var(--font-display); font-size: .6875rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--maroon-light); margin-bottom: var(--space-sm); }
-      .footer-col a { display: flex; align-items: center; font-size: .875rem; min-height: 44px; opacity: .8; }
-      .footer-col a:hover { opacity: 1; color: var(--white); }
-      .footer-bottom { border-top: 1px solid oklch(1 0 0 / .08); padding: var(--space-md) 0; text-align: center; font-size: .75rem; opacity: .5; }
-    </style>
   </body>
 </html>
